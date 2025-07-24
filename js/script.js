@@ -23,7 +23,7 @@ function formatTime(seconds) {
 
 async function getSong(folder) {
   crrFolder = folder;
-  let a = await fetch(`http://127.0.0.1:3000/${folder}/`);
+  let a = await fetch(`${folder}/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -57,7 +57,7 @@ async function getSong(folder) {
 
 async function getSongAlbums(folder) {
   crrAlubmsFolders = folder;
-  let a = await fetch(`http://127.0.0.1:3000/${folder}/`);
+  let a = await fetch(`${folder}/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -140,7 +140,7 @@ const playMusic = (track, pause = false) => {
 };
 
 async function displayAlbums() {
-  let a = await fetch(`http://127.0.0.1:3000/songs/albums/`);
+  let a = await fetch(`songs/albums/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -153,7 +153,7 @@ async function displayAlbums() {
     if (element.href.includes("/songs/albums")) {
       albumFolders = element.href.split("/").slice(-2)[0];
       let a = await fetch(
-        `http://127.0.0.1:3000/songs/albums/${albumFolders}/info.json`
+        `songs/albums/${albumFolders}/info.json`
       );
       let response = await a.json();
 
@@ -616,7 +616,7 @@ async function main() {
 
   copyFavoriteSong.addEventListener("click", async () => {
     // e.preventDefault();
-    const baseURL = "http://127.0.0.1:3000/index.html"; // change to your site
+    const baseURL = "index.html"; // change to your site
     const query = favorites.map(encodeURIComponent).join(",");
     const shareLink = await shortenUrl(`${baseURL}?songs=${query}`);
 
