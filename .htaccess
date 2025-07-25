@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Allow access to existing files and folders
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # If you're using a SPA (like index.html), uncomment below:
+  # RewriteRule ^ index.html [L]
+</IfModule>
+
+# Allow access to audio and json files
+<IfModule mod_headers.c>
+  <FilesMatch "\.(mp3|json)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
