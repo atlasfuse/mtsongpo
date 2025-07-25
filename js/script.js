@@ -23,7 +23,8 @@ function formatTime(seconds) {
 
 async function getSong(folder) {
   crrFolder = folder;
-  let a = await fetch(`https://mysongpo.netlify.app/${folder}/`);
+  // Use relative path instead of absolute URL
+  let a = await fetch(folder);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -41,23 +42,13 @@ async function getSong(folder) {
     }
   }
 
-  // ahrf.forEach((element) => {
-  //   if (element.href.endsWith(".mp3")) {
-  //     song.push(element.href.split("${folder}")[1]);
-  //   }
-  // });
-
-  //also a format for find .mp3 song in file
-  // let song = ahrf
-  // .filter(el => el.href.endsWith(".mp3"))
-  // .map(el => el.href);
-
   return song;
 }
 
 async function getSongAlbums(folder) {
   crrAlubmsFolders = folder;
-  let a = await fetch(`https://mysongpo.netlify.app/${folder}/`);
+  // Use relative path instead of absolute URL
+  let a = await fetch(folder);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -74,17 +65,6 @@ async function getSongAlbums(folder) {
       song.push(ahrf[i].href.split(`${crrAlubmsFolders}`)[1]);
     }
   }
-
-  // ahrf.forEach((element) => {
-  //   if (element.href.endsWith(".mp3")) {
-  //     song.push(element.href.split("${folder}")[1]);
-  //   }
-  // });
-
-  //also a format for find .mp3 song in file
-  // let song = ahrf
-  // .filter(el => el.href.endsWith(".mp3"))
-  // .map(el => el.href);
 
   return song;
 }
@@ -140,7 +120,8 @@ const playMusic = (track, pause = false) => {
 };
 
 async function displayAlbums() {
-  let a = await fetch(`https://mysongpo.netlify.app/songs/albums/`);
+  // Use relative path instead of absolute URL
+  let a = await fetch(`songs/albums/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -148,13 +129,13 @@ async function displayAlbums() {
   let albumsContainer = document.querySelector(".featured-grid");
   let arr = Array.from(ahrf);
 
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length-1; i++) {
     const element = arr[i];
     if (element.href.includes("/songs/albums")) {
       albumFolders = element.href.split("/").slice(-2)[0];
-      let a = await fetch(
-        `https://mysongpo.netlify.app/songs/albums/${albumFolders}/info.json`
-      );
+      // Use relative path instead of absolute URL
+      console.log("albumFolders:", albumFolders);
+      let a = await fetch(`songs/albums/${albumFolders}/info.json`);
       let response = await a.json();
 
       albumsContainer.innerHTML =
@@ -337,7 +318,8 @@ async function main() {
     console.log("Favorites after sharing:", favorites);
   });
 
-  let songs = await getSong("/songs/song_add/");
+  // Use relative path instead of absolute URL
+  let songs = await getSong("songs/song_add/");
 
   console.log(albums);
 
